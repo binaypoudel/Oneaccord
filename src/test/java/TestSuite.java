@@ -5,7 +5,7 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite
 @SelectClasses({
-        //LoginPageTest.class,
+        LoginPageTest.class,
         AboutDetailsPageTest.class,
         FirstTest.class,
 
