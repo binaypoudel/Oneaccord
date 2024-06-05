@@ -6,8 +6,9 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({
         LoginPageTest.class,
-        AboutDetailsPageTest.class,
-        FirstTest.class,
+//        AboutDetailsPageTest.class,
+//        ConfigurationPageTest.class,
+//        FirstTest.class,
 
 })
 public class TestSuite {

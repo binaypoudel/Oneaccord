@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,32 +12,44 @@ import pages.SabbathSchoolDetailsPage;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 
 public class SabbathSchoolDetailsPageTest {
 
-    private WebDriver driver;
-    final String correctUsername="binay.poudel@webpoint.io";
-    final String correctPassword="Webpoint@2024";
-    LoginPage loginPage;
-    private SabbathSchoolDetailsPage sabbathSchoolDetailsPage;
+    static  WebDriver driver;
+    final static String correctUsername="binay.poudel@webpoint.io";
+    final static String correctPassword="Webpoint@2024";
+    private  SabbathSchoolDetailsPage sabbathSchoolDetailsPage;
+    private static Set<Cookie> cookies;
 
-    @BeforeEach
-    public void setUp() throws InterruptedException {
+    @BeforeAll
+    public static void setUpOnce() throws InterruptedException {
         driver= new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        driver.get("https://cms.dev.oneaccord.cc/login");
+        driver.get("https://admin.dev.oneaccord.cc/login");
         driver.manage().window().maximize();
-        loginPage=new LoginPage(driver);
-        sabbathSchoolDetailsPage=new SabbathSchoolDetailsPage(driver);
+        LoginPage loginPage = new LoginPage(driver);
+        SabbathSchoolDetailsPage sabbathSchoolDetailsPage=new SabbathSchoolDetailsPage(driver);
         loginPage.logins(correctUsername,correctPassword);
-        Thread.sleep(5000);
+        cookies = driver.manage().getCookies();
         Actions actions = new Actions(driver);
         actions.moveToElement( driver.findElement(sabbathSchoolDetailsPage.websiteContentButtonLocator)).perform();
         driver.findElement(sabbathSchoolDetailsPage.pageButtonLocator).click();
+
+
+    }
+    @BeforeEach
+    public void setUp() {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        for (Cookie cookie : cookies) {
+            driver.manage().addCookie(cookie);
+        }
+        sabbathSchoolDetailsPage = new SabbathSchoolDetailsPage(driver);
+
     }
 
     @AfterEach
-    public void tearDown(){
+    public  void  tearDown(){
         driver.quit();
     }
 
