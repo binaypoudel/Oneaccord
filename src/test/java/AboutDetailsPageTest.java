@@ -6,14 +6,22 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
 import pages.AboutDetailsPage;
 import pages.LoginPage;
 
 
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
 
 public class AboutDetailsPageTest {
 
@@ -24,15 +32,37 @@ public class AboutDetailsPageTest {
     private AboutDetailsPage aboutDetailsPage;
 
     @BeforeEach
-    public void setUp() throws InterruptedException {
-        driver= new ChromeDriver();
+    public void setUp() throws IOException, InterruptedException {
+        Properties prop=new Properties();
+        File file=new File("src/test/java/config.properties");
+        FileInputStream fis=new FileInputStream(file);
+        prop.load(fis);
+        String browserName=prop.getProperty("browser");
+
+        switch (browserName) {
+            case "chrome" : ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--headless");
+                chromeOptions.addArguments("--disable-gpu");
+                driver = new ChromeDriver(chromeOptions);
+                break;
+            case "firefox" : FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.addArguments("--headless");
+                driver = new FirefoxDriver(firefoxOptions);
+                break;
+            case "edge" : EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.addArguments("--headless");
+                driver = new EdgeDriver(edgeOptions);
+                break;
+            case null, default : System.out.println("Invalid Browser");
+        }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        driver.get("https://cms.dev.oneaccord.cc/login");
+        String linkName=prop.getProperty("linkName");
+        driver.get(linkName);
         driver.manage().window().maximize();
         loginPage=new LoginPage(driver);
         aboutDetailsPage=new AboutDetailsPage(driver);
         loginPage.logins(correctUsername,correctPassword);
-        Thread.sleep(5000);
+        Thread.sleep(200);
         Actions actions = new Actions(driver);
         actions.moveToElement( driver.findElement(aboutDetailsPage.websiteContentButtonLocator)).perform();
         driver.findElement(aboutDetailsPage.pageButtonLocator).click();

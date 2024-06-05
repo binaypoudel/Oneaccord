@@ -16,6 +16,18 @@ public class LoginPage {
     public  By logoutIconLocator=By.xpath("//body/div[1]/aside[1]/div[2]/div[1]/button[1]/*[1]");
     public  By logoutButtonLocator=By.xpath("//body/div[3]/div[1]/button[1]");
     public  By welcomeBackLocator=By.xpath("//h2[contains(text(),'Welcome Back')]");
+    public  By forgotPasswordPageTextLocator=By.xpath("//h2[contains(text(),'Forgot Your Password?')]");
+    public  By forgotPasswordButtonLocator=By.xpath("//body[1]/div[1]/div[1]/form[1]/a[1]/p[1]");
+    public  By forgotPasswordEmailFieldLocator=By.xpath("//body/div[1]/div[1]/form[1]/div[2]/div[1]/div[1]/input[1]");
+    public  By forgotPasswordSubmitButtonLocator=By.xpath("//button[contains(text(),'Send Me the Link')]");
+    public  By forgotPasswordSuccessMessageLocator=By.xpath("//div[contains(text(),'Successfully sent forget password email')]");
+    public  By forgotPasswordUnsuccessfulMessageLocator=By.xpath("//div[contains(text(),'Email address not found.')]");
+    public  By forgotPasswordEmailNotValidMessageLocator=By.xpath("//div[contains(text(),'Email address is not valid.')]");
+
+
+
+
+
 
 
     public LoginPage(WebDriver driver){

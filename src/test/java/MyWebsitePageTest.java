@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.LoginPage;
 import pages.MyWebsitePage;
 
@@ -20,7 +21,9 @@ public class MyWebsitePageTest {
 
     @BeforeEach
     public void setUp(){
-        driver= new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver= new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.get("https://cms.dev.oneaccord.cc/login");
         driver.manage().window().maximize();
